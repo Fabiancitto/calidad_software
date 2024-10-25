@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Tu Carrito - WalkWave</title>
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <div class="logo-titulo">
+                <a href="{% url 'index' %}">
+                    <h1>WalkWave</h1>
+                </a>
+            </div>
+            <nav id="nav">
+                <a href="{% url 'index' %}">Inicio</a>
+            </nav>
+        </header>
+
+        <div class="contenedor-carrito">
+            <h2>Tu Carrito</h2>
+
+            <div class="carrito-items">
+                {% for item in productos %}
+                <div class="carrito-item">
+                    <span class="titulo-item">{{ item.producto.nombre }}</span>
+                    <span class="precio-item">{{ item.producto.precio }} CLP</span>
+                    
+                    <div class="cantidad-item">
+                        <form method="post" action="{% url 'agregar_al_carrito' item.producto.id %}">
+                            {% csrf_token %}
+                            <label for="cantidad-{{ item.producto.id }}">Cantidad:</label>
+                            <input type="number" name="cantidad" id="cantidad-{{ item.producto.id }}" value="{{ item.cantidad }}" min="1">
+                        </form>
+                    </div>
+
+                    <a href="{% url 'eliminar_del_carrito' item.producto.id %}">
+                        <button class="boton-eliminar">Eliminar</button>
+                    </a>
+                </div>
+                {% empty %}
+                <p>Tu carrito está vacío.</p>
+                {% endfor %}
+            </div>
+
+            <div class="carrito-total">
+                <div class="fila">
+                    <strong>Total:</strong>
+                    <span class="carrito-precio-total">{{ total }} CLP</span>
+                </div>
+                <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

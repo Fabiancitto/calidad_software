@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>WalkWave</title>
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <div class="logo-titulo">
+                <a href="{% url 'index' %}">
+                    <h1>WalkWave</h1>
+                </a>
+            </div>
+            <nav id="nav">
+                <a href="{% url 'index' %}" class="selected">Inicio</a>
+                <div class="carrito">
+                    <span class="total-compra"></span>
+                    <a href="{% url 'carrito' %}">
+                        <span class="icono-carrito">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <div class="total-item-carrito">0</div>
+                        </span>
+                    </a>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="perfil">
+                        <a href="{% url 'perfil' %}">
+                            <button type="button">Perfil</button>
+                        </a>
+                    </div>
+                    <div class="logout">
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Cerrar Sesión</button>
+                        </form>
+                    </div>
+                    {% if user.is_superuser %}
+                        <!-- Botón para ir al administrador solo para superusuarios -->
+                        <div class="admin-panel">
+                            <a href="/admin/">
+                                <button type="button">Administrar</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="login">
+                        <a href="{% url 'login' %}">
+                            <button type="button">Iniciar Sesión</button>
+                        </a>
+                    </div>
+                {% endif %}
+            </nav>
+        </header>
+
+        <section class="contenedor-seccion">
+            <div class="fondo-seccion"></div>
+            <section id="inicio" class="inicio">
+                <div class="col">
+                    <h2 class="titulo-inicio">Encuentra las zapatillas <br> que buscas al mejor precio</h2>
+                    <div class="buscador">
+                        <input type="text" placeholder="¿Qué estás buscando?">
+                        <span class="btn-buscar"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    </div>
+                </div>
+            </section>
+            <section class="productos">
+                <h2>Productos disponibles</h2>
+                <div class="lista-productos">
+                    {% for producto in productos %}
+                    <div class="producto-item">
+                        <h3>{{ producto.nombre }}</h3>
+                        <p>{{ producto.descripcion }}</p>
+                        <p>Precio: ${{ producto.precio }} CLP</p>
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 200px;">
+                        {% endif %}             
+                        <input type="number" id="cantidad-{{ producto.id }}" min="1" value="1" style="width: 60px;">
+                        <button class="boton-item" onclick="agregarAlCarrito({{ producto.id }})">Agregar al Carrito</button>
+                    </div>
+                    {% empty %}
+                    <p>No hay productos disponibles.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <script>
+        function agregarAlCarrito(productoId) {
+            const cantidad = document.getElementById(`cantidad-${productoId}`).value; // Obtener cantidad
+            fetch(`/agregar_al_carrito/${productoId}/?cantidad=${cantidad}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message); // Muestra un mensaje de éxito
+                        // Opcional: Actualiza el contador del carrito aquí
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

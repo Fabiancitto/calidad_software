@@ -1,0 +1,5 @@
+<form method="POST" enctype="multipart/form-data">  <!-- Añadir enctype -->
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Agregar Producto</button>
+</form>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Productos Disponibles</h1>
+    
+    <div class="productos">
+        {% for producto in productos %}
+            <div class="producto-item">
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.descripcion }}</p>
+                <p>Precio: ${{ producto.precio }} CLP</p>
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 200px;">
+                
+                <!-- Solo usuarios autenticados pueden agregar productos al carrito -->
+                {% if user.is_authenticated %}
+                    <input type="number" id="cantidad-{{ producto.id }}" min="1" value="1" style="width: 60px;">
+                    <button class="boton-item" onclick="agregarAlCarrito({{ producto.id }})">Agregar al Carrito</button>
+                {% endif %}
+                
+                <!-- Solo el admin puede ver las opciones de editar y eliminar -->
+                {% if user.is_superuser %}
+                    <a href="{% url 'editar_producto' producto.pk %}">Editar</a> |
+                    <a href="{% url 'eliminar_producto' producto.pk %}">Eliminar</a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No hay productos disponibles.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
