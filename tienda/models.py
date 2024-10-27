@@ -20,15 +20,19 @@ class Perfil(models.Model):
     def __str__(self):
         return f'Perfil de {self.user.username}'
 
+# Señal para crear o actualizar el perfil de usuario
 @receiver(post_save, sender=User)
 def crear_o_actualizar_perfil(sender, instance, created, **kwargs):
-    if created:
-        # Se crea el perfil cuando se crea un nuevo usuario
+    # Solo crear el perfil si el usuario es nuevo y aún no tiene un perfil
+    if created and not Perfil.objects.filter(user=instance).exists():
         Perfil.objects.create(user=instance)
-    else:
-        # Asegúrate de que si se guarda un usuario, el perfil se mantenga actualizado
-        try:
-            instance.perfil.save()
-        except Perfil.DoesNotExist:
-            # Si no existe el perfil, se crea automáticamente
-            Perfil.objects.create(user=instance)
+
+class Reseña(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="reseñas")
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    texto = models.TextField()
+    valoracion = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])  # Rango de 1 a 5 estrellas
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Reseña de {self.usuario.username} para {self.producto.nombre}'

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_c.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Tu Carrito - WalkWave</title>
 </head>
@@ -25,26 +25,25 @@
             <h2>Tu Carrito</h2>
 
             <div class="carrito-items">
-                {% for item in productos %}
-                <div class="carrito-item">
-                    <span class="titulo-item">{{ item.producto.nombre }}</span>
-                    <span class="precio-item">{{ item.producto.precio }} CLP</span>
+                {% if productos %}
+                    {% for item in productos %}
+                    <div class="carrito-item">
+                        <span class="carrito-item-titulo">{{ item.producto.nombre }}</span>
+                        <span class="carrito-item-precio">{{ item.producto.precio }} CLP</span>
+                        
+                        <div class="selector-cantidad">
+                            <button class="restar-cantidad">-</button>
+                            <span class="carrito-item-cantidad">{{ item.cantidad }}</span>
+                            <button class="sumar-cantidad">+</button>
+                        </div>
                     
-                    <div class="cantidad-item">
-                        <form method="post" action="{% url 'agregar_al_carrito' item.producto.id %}">
-                            {% csrf_token %}
-                            <label for="cantidad-{{ item.producto.id }}">Cantidad:</label>
-                            <input type="number" name="cantidad" id="cantidad-{{ item.producto.id }}" value="{{ item.cantidad }}" min="1">
-                        </form>
+                        <!-- Botón de eliminación que llama a la URL eliminar_del_carrito -->
+                        <a href="{% url 'eliminar_del_carrito' item.producto.id %}" class="btn-eliminar">Eliminar</a>
                     </div>
-
-                    <a href="{% url 'eliminar_del_carrito' item.producto.id %}">
-                        <button class="boton-eliminar">Eliminar</button>
-                    </a>
-                </div>
-                {% empty %}
-                <p>Tu carrito está vacío.</p>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <p>Tu carrito está vacío.</p>
+                {% endif %}
             </div>
 
             <div class="carrito-total">
@@ -52,11 +51,12 @@
                     <strong>Total:</strong>
                     <span class="carrito-precio-total">{{ total }} CLP</span>
                 </div>
-                <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
+                <!-- Enlace de pago que vacía el carrito -->
+                <a href="{% url 'pagar' %}" class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></a>
             </div>
         </div>
     </div>
 
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/carrito.js' %}"></script>
 </body>
 </html>

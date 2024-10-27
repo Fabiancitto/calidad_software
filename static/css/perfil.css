@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
 
+/* Body general */
 body {
     background: linear-gradient(135deg, #000000 50%, #5c69f5 100%);
     display: flex;
@@ -12,6 +13,7 @@ body {
     color: #333;
 }
 
+/* Contenedor del perfil */
 .contenedor-perfil {
     background-color: #f9f9f9;
     padding: 30px;
@@ -19,19 +21,21 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
 }
 
 .contenedor-perfil:hover {
     transform: scale(1.02);
 }
 
+/* Título */
 .contenedor-perfil h1 {
     font-family: 'DM Serif Display', serif;
     color: #333;
     margin-bottom: 20px;
 }
 
+/* Imagen de perfil */
 .imagen-perfil {
     width: 150px;
     height: 150px;
@@ -41,6 +45,7 @@ body {
     border: 3px solid #007BFF;
 }
 
+/* Información del perfil */
 .perfil-info {
     margin-top: 20px;
     text-align: left;
@@ -71,6 +76,7 @@ body {
     color: #555;
 }
 
+/* Botón de "Regresar al inicio" */
 .boton-regresar {
     display: inline-block;
     background-color: #007BFF;
@@ -88,6 +94,44 @@ body {
     color: white !important;
 }
 
+/* Estilos para el selector de archivo personalizado y botón de actualización */
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-label {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.custom-file-label:hover {
+    background-color: #4cae4c;
+}
+
+button[type="submit"] {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #c9302c;
+}
+
+/* Mensaje de error */
 .error-message {
     color: red;
     font-size: 14px;
@@ -96,6 +140,7 @@ body {
     font-weight: bold;
 }
 
+/* Responsividad */
 @media (max-width: 768px) {
     .contenedor-perfil {
         width: 90%;

@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ producto.nombre }} - WalkWave</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+    <!-- Encabezado con Carrito y Botón de Volver Atrás en la Esquina Superior Derecha -->
+    <header class="encabezado">
+        <h1>WalkWave</h1>
+        <div class="encabezado-derecha">
+            <button onclick="window.history.back()" class="btn-volver">Volver Atrás</button>
+            <a href="{% url 'carrito' %}" class="carrito-icono">
+                <i class="fa fa-shopping-cart"></i>
+                <span id="carrito-contador" class="carrito-contador">0</span> <!-- Contador de artículos en el carrito -->
+            </a>
+        </div>
+    </header>
+
+    <div class="contenedor-detalle-producto">
+        <!-- Sección de Galería de Imágenes del Producto -->
+        <div class="galeria-producto">
+            {% if producto.imagen %}
+                <div class="imagen-principal">
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                </div>
+            {% endif %}
+            <div class="imagenes-secundarias">
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            </div>
+        </div>
+
+        <!-- Sección de Información del Producto -->
+        <div class="informacion-producto">
+            <h1>{{ producto.nombre }}</h1>
+            <p class="precio">Precio: ${{ producto.precio }} CLP</p>
+            
+            <!-- Botón de Añadir al Carrito -->
+            <button onclick="agregarAlCarrito({{ producto.id }})" class="btn-agregar-carrito">Añadir al Carrito</button>
+            
+            <!-- Descripción del producto -->
+            <div class="descripcion">
+                <h2>Descripción del producto</h2>
+                <p>{{ producto.descripcion|linebreaks }}</p>  <!-- Usamos el filtro linebreaks -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Reseñas -->
+    <div class="reseñas">
+        <h2>Reseñas</h2>
+
+        <!-- Mostrar Reseñas Existentes -->
+        {% if reseñas %}
+            <ul class="lista-reseñas">
+                {% for reseña in reseñas %}
+                <li class="reseña-item">
+                    <strong>{{ reseña.usuario.username }}</strong> - {{ reseña.fecha|date:"d M Y H:i" }}
+                    <p>Valoración: 
+                        {% for i in "12345"|slice:":reseña.valoracion" %}
+                            <span class="estrella">★</span>
+                        {% endfor %}
+                    </p>
+                    <p>{{ reseña.texto }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aún no hay reseñas. ¡Sé el primero en comentar!</p>
+        {% endif %}
+
+        <!-- Formulario para Enviar Nueva Reseña -->
+        {% if user.is_authenticated %}
+            <form method="POST" class="form-reseña">
+                {% csrf_token %}
+                <textarea name="texto" placeholder="Escribe tu reseña aquí..." required></textarea>
+                
+                <!-- Selección de Valoración con Estrellas -->
+                <div class="rating">
+                    <input type="radio" id="estrella5" name="valoracion" value="5" required><label for="estrella5" class="estrella">★</label>
+                    <input type="radio" id="estrella4" name="valoracion" value="4"><label for="estrella4" class="estrella">★</label>
+                    <input type="radio" id="estrella3" name="valoracion" value="3"><label for="estrella3" class="estrella">★</label>
+                    <input type="radio" id="estrella2" name="valoracion" value="2"><label for="estrella2" class="estrella">★</label>
+                    <input type="radio" id="estrella1" name="valoracion" value="1"><label for="estrella1" class="estrella">★</label>
+                </div>
+
+                <button type="submit" class="btn-enviar">Enviar Reseña</button>
+            </form>
+        {% else %}
+            <p>Inicia sesión para dejar una reseña.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function agregarAlCarrito(productoId) {
+            fetch(`/agregar_al_carrito/${productoId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Actualizar el contador del carrito en el encabezado
+                        document.getElementById('carrito-contador').textContent = data.cantidad;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

@@ -5,16 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Perfil de {{ user.username }}</title>
 </head>
 <body>
     <div class="contenedor-perfil">
         <h1>Perfil de {{ user.username }}</h1>
 
-        <!-- Imagen de perfil -->
-        <img src="{% static 'img/perfil.png' %}" alt="Imagen de perfil" class="imagen-perfil">
-        
+        <!-- Mostrar la imagen de perfil o una por defecto si no está configurada -->
+        {% if user.perfil.imagen %}
+            <img src="{{ user.perfil.imagen.url }}" alt="Imagen de perfil" class="imagen-perfil">
+        {% else %}
+            <img src="{% static 'img/default_perfil.png' %}" alt="Imagen de perfil" class="imagen-perfil">
+        {% endif %}
+
+        <!-- Formulario para actualizar la imagen de perfil -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="custom-file-label" for="image">Seleccionar archivo</label>
+            <input type="file" name="imagen" id="image" accept="image/*">
+            <button type="submit">Actualizar Imagen</button>
+        </form>
+
+        <!-- Información del perfil del usuario -->
         <div class="perfil-info">
             <div class="perfil-item">
                 <i class="fa-solid fa-user"></i>

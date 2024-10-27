@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <img src="${imageSrc}" alt="" class="carrito-item-img">
             <span class="carrito-item-titulo">${title}</span>
             <div class="selector-cantidad">
-                <i class="fa fa-minus-circle"></i>
+                <i class="fa fa-minus-circle restar-cantidad"></i>
                 <span class="carrito-item-cantidad">1</span>
-                <i class="fa fa-plus-circle"></i>
+                <i class="fa fa-plus-circle sumar-cantidad"></i>
             </div>
             <span class="carrito-item-precio">$${price.toLocaleString()}</span>
             <button class="btn-eliminar">X</button>
@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Agregar manejadores de eventos para eliminar y cambiar la cantidad
         cartRow.querySelector('.btn-eliminar').addEventListener('click', removeCartItem);
-        cartRow.querySelector('.fa-minus-circle').addEventListener('click', decreaseQuantity);
-        cartRow.querySelector('.fa-plus-circle').addEventListener('click', increaseQuantity);
+        cartRow.querySelector('.restar-cantidad').addEventListener('click', decreaseQuantity);
+        cartRow.querySelector('.sumar-cantidad').addEventListener('click', increaseQuantity);
     }
 
     // Actualiza el total del carrito
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Disminuye la cantidad de un producto
     function decreaseQuantity(event) {
         const buttonClicked = event.target;
-        const quantityElement = buttonClicked.nextElementSibling;
+        const quantityElement = buttonClicked.nextElementSibling; // Cambiado de 'previousElementSibling' a 'nextElementSibling'
         let quantity = parseInt(quantityElement.textContent);
         if (quantity > 1) {
             quantityElement.textContent = quantity - 1;
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Aumenta la cantidad de un producto
     function increaseQuantity(event) {
         const buttonClicked = event.target;
-        const quantityElement = buttonClicked.previousElementSibling;
+        const quantityElement = buttonClicked.previousElementSibling; // Cambiado de 'nextElementSibling' a 'previousElementSibling'
         let quantity = parseInt(quantityElement.textContent);
         quantityElement.textContent = quantity + 1;
         updateCartTotal();
@@ -106,3 +106,28 @@ document.addEventListener("DOMContentLoaded", function () {
         alert('Usted ha comprado exitosamente');
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Añadir el evento al botón de búsqueda
+    const buscarButton = document.querySelector('.btn-buscar');
+    buscarButton.addEventListener('click', buscarProductos);
+
+    // También permitir buscar al presionar "Enter"
+    const buscadorInput = document.getElementById('buscador-input');
+    buscadorInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            buscarProductos();
+        }
+    });
+});
+
+// Función para buscar productos
+function buscarProductos() {
+    const query = document.getElementById('buscador-input').value; // Obtener el valor del input
+    if (query) {
+        // Redirigir a la URL de búsqueda con la consulta
+        window.location.href = '/buscar/?q=' + encodeURIComponent(query);
+    } else {
+        alert("Por favor ingrese un término de búsqueda.");
+    }
+}

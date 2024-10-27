@@ -10,6 +10,15 @@
 <body>
     <div class="contenedor-registro">
         <h1>Registrarse</h1>
+
+        {% if messages %}
+            <div class="mensaje">
+                {% for message in messages %}
+                    <div class="mensaje-info">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %}
             <div class="campo-formulario">

@@ -20,14 +20,14 @@ function ready() {
     var botonesSumarCantidad = document.getElementsByClassName('sumar-cantidad');
     for (var i = 0; i < botonesSumarCantidad.length; i++) {
         var button = botonesSumarCantidad[i];
-        button.addEventListener('click', sumarCantidad);
+        button.addEventListener('click', aumentarCantidad);
     }
 
     // Agrego funcionalidad al botón restar cantidad
     var botonesRestarCantidad = document.getElementsByClassName('restar-cantidad');
     for (var i = 0; i < botonesRestarCantidad.length; i++) {
         var button = botonesRestarCantidad[i];
-        button.addEventListener('click', restarCantidad);
+        button.addEventListener('click', disminuirCantidad);
     }
 
     // Agregamos funcionalidad al botón Agregar al carrito
@@ -44,7 +44,6 @@ function ready() {
 // Eliminamos todos los elementos del carrito y lo ocultamos
 function pagarClicked() {
     alert("Gracias por la compra");
-    // Elimino todos los elementos del carrito
     var carritoItems = document.getElementsByClassName('carrito-items')[0];
     while (carritoItems.hasChildNodes()) {
         carritoItems.removeChild(carritoItems.firstChild);
@@ -82,7 +81,6 @@ function agregarItemAlCarrito(titulo, precio, imagenSrc) {
     item.classList.add('item');
     var itemsCarrito = document.getElementsByClassName('carrito-items')[0];
 
-    // Controlamos que el item que intenta ingresar no se encuentre en el carrito
     var nombresItemsCarrito = itemsCarrito.getElementsByClassName('carrito-item-titulo');
     for (var i = 0; i < nombresItemsCarrito.length; i++) {
         if (nombresItemsCarrito[i].innerText == titulo) {
@@ -98,7 +96,7 @@ function agregarItemAlCarrito(titulo, precio, imagenSrc) {
                 <span class="carrito-item-titulo">${titulo}</span>
                 <div class="selector-cantidad">
                     <i class="fa-solid fa-minus restar-cantidad"></i>
-                    <input type="text" value="1" class="carrito-item-cantidad" disabled>
+                    <span class="carrito-item-cantidad">1</span>
                     <i class="fa-solid fa-plus sumar-cantidad"></i>
                 </div>
                 <span class="carrito-item-precio">${precio}</span>
@@ -111,52 +109,38 @@ function agregarItemAlCarrito(titulo, precio, imagenSrc) {
     item.innerHTML = itemCarritoContenido;
     itemsCarrito.append(item);
 
-    // Agregamos la funcionalidad eliminar al nuevo item
     item.getElementsByClassName('btn-eliminar')[0].addEventListener('click', eliminarItemCarrito);
+    item.getElementsByClassName('restar-cantidad')[0].addEventListener('click', disminuirCantidad);
+    item.getElementsByClassName('sumar-cantidad')[0].addEventListener('click', aumentarCantidad);
 
-    // Agregamos la funcionalidad restar cantidad del nuevo item
-    var botonRestarCantidad = item.getElementsByClassName('restar-cantidad')[0];
-    botonRestarCantidad.addEventListener('click', restarCantidad);
-
-    // Agregamos la funcionalidad sumar cantidad del nuevo item
-    var botonSumarCantidad = item.getElementsByClassName('sumar-cantidad')[0];
-    botonSumarCantidad.addEventListener('click', sumarCantidad);
-
-    // Actualizamos total
     actualizarTotalCarrito();
 }
 
-// Aumento en uno la cantidad del elemento seleccionado
-function sumarCantidad(event) {
-    var buttonClicked = event.target;
-    var selector = buttonClicked.parentElement;
-    var cantidadActual = selector.getElementsByClassName('carrito-item-cantidad')[0].value;
-    cantidadActual++;
-    selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+function aumentarCantidad(event) {
+    const buttonClicked = event.target;
+    const cantidadElement = buttonClicked.previousElementSibling;
+    let cantidad = parseInt(cantidadElement.textContent);
+    cantidadElement.textContent = cantidad + 1;
     actualizarTotalCarrito();
 }
 
-// Restar en uno la cantidad del elemento seleccionado
-function restarCantidad(event) {
-    var buttonClicked = event.target;
-    var selector = buttonClicked.parentElement;
-    var cantidadActual = selector.getElementsByClassName('carrito-item-cantidad')[0].value;
-    cantidadActual--;
-    if (cantidadActual >= 1) {
-        selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+function disminuirCantidad(event) {
+    const buttonClicked = event.target;
+    const cantidadElement = buttonClicked.nextElementSibling;
+    let cantidad = parseInt(cantidadElement.textContent);
+    if (cantidad > 1) {
+        cantidadElement.textContent = cantidad - 1;
         actualizarTotalCarrito();
+    } else {
+        alert("La cantidad no puede ser menor a 1.");
     }
 }
 
 // Eliminar el item seleccionado del carrito
 function eliminarItemCarrito(event) {
     var buttonClicked = event.target;
-    buttonClicked.parentElement.parentElement.remove();
-    // Actualizamos el total del carrito
+    buttonClicked.closest('.carrito-item').remove();
     actualizarTotalCarrito();
-
-    // La siguiente función controla si hay elementos en el carrito
-    // Si no hay, oculto el carrito
     ocultarCarrito();
 }
 
@@ -176,19 +160,16 @@ function ocultarCarrito() {
 
 // Actualizamos el total de Carrito
 function actualizarTotalCarrito() {
-    // Seleccionamos el contenedor carrito
     var carritoContenedor = document.getElementsByClassName('carrito')[0];
     var carritoItems = carritoContenedor.getElementsByClassName('carrito-item');
     var total = 0;
-    // Recorremos cada elemento del carrito para actualizar el total
     for (var i = 0; i < carritoItems.length; i++) {
         var item = carritoItems[i];
         var precioElemento = item.getElementsByClassName('carrito-item-precio')[0];
-        // Quitamos el símbolo peso y el punto de milesimos.
         var precio = parseFloat(precioElemento.innerText.replace('$', '').replace('.', ''));
         var cantidadItem = item.getElementsByClassName('carrito-item-cantidad')[0];
-        var cantidad = cantidadItem.value;
-        total = total + (precio * cantidad);
+        var cantidad = parseInt(cantidadItem.innerText);
+        total += precio * cantidad;
     }
     total = Math.round(total * 100) / 100;
 

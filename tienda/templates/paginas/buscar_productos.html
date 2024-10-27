@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="{% static 'css/styless.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Resultados de Búsqueda para "{{ query }}"</h1>
+    </header>
+    <div class="lista-productos">
+        {% if resultados %}
+            {% for producto in resultados %}
+                <div class="producto-item">
+                    <h3>{{ producto.nombre }}</h3>
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-producto">
+                    {% endif %}
+                    <p>Precio: ${{ producto.precio }} CLP</p>
+                    <a href="{% url 'detalle_producto' producto.id %}" class="btn-ver-producto">Ver Producto</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

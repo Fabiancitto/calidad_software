@@ -1,0 +1,256 @@
+/* Configuración general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #000000 50%, #5c69f5 100%);
+    color: #333;
+    padding: 20px;
+}
+
+/* Encabezado con Icono de Carrito */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.encabezado h1 {
+    font-size: 1.5em;
+    color: #ffffff;
+}
+
+.carrito-icono {
+    position: relative;
+    font-size: 1.5em;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.carrito-contador {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #d9534f;
+    color: #fff;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 0.8em;
+}
+
+/* Contenedor Principal de Detalle del Producto */
+.contenedor-detalle-producto {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de Galería de Imágenes */
+.galeria-producto {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.imagen-principal img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(250, 250, 250, 0.1);
+}
+
+.imagenes-secundarias {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.imagenes-secundarias img {
+    width: 32%;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.imagenes-secundarias img:hover {
+    transform: scale(1.05);
+}
+
+/* Sección de Información del Producto */
+.informacion-producto {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.informacion-producto h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.precio {
+    font-size: 1.5em;
+    color: #d9534f;
+    margin-bottom: 10px;
+}
+
+.descripcion {
+    font-size: 1em;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #ffffff; /* Cambiado a blanco */
+}
+
+/* Botón de Añadir al Carrito */
+.btn-agregar-carrito {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-agregar-carrito:hover {
+    background-color: #4cae4c;
+}
+
+/* Sección de Reseñas */
+.reseñas {
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #ffffff; /* Cambiado a blanco para todo el texto */
+}
+
+.reseñas h2 {
+    font-size: 1.8em;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.lista-reseñas {
+    list-style: none;
+    padding: 0;
+}
+
+.reseña-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    color: #ffffff;
+}
+
+.reseña-item p {
+    margin: 5px 0;
+    color: #ffffff;
+}
+
+.estrella {
+    color: gold;
+    font-size: 1.5em;
+}
+
+/* Cuadro de texto de reseñas */
+.form-reseña textarea {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    margin-top: 10px;
+    background-color: #333;
+    color: #ffffff; /* Cambiado a blanco */
+}
+
+/* Estrellas de valoración */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input[type="radio"]:checked ~ label {
+    color: gold;
+}
+
+.btn-enviar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-enviar:hover {
+    background-color: #0056b3;
+}
+
+/* Botón Volver Atrás */
+.btn-volver {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.btn-volver:hover {
+    background-color: #0056b3;
+}
+
+.encabezado-derecha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para la sección de descripción del producto */
+.informacion-producto .descripcion {
+    margin-top: 15px; /* Espacio superior */
+    font-size: 1em; /* Tamaño de fuente */
+    line-height: 1.6; /* Interlineado */
+    color: #ffffff; /* Cambiado a blanco */
+}
+
+/* Estilo para los párrafos dentro de la descripción */
+.informacion-producto .descripcion p {
+    margin-bottom: 10px; /* Espacio entre párrafos */
+}

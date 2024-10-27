@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #000000 50%, #5c69f5 100%);
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 50px;
+    color: #ffffff;
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #1e1e1e 50%, #3e4bff 100%);
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Logo y navegación */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo-titulo h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#nav a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Contenedor del carrito */
+.contenedor-carrito {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.contenedor-carrito h2 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Lista de items del carrito */
+.carrito-items {
+    margin-bottom: 20px;
+}
+
+.carrito-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.titulo-item {
+    flex: 1;
+}
+
+.precio-item {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Botones de cantidad (+ y -) con diseño redondo */
+.sumar-cantidad, .restar-cantidad {
+    background-color: #5cb85c;
+    color: #ffffff;
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+}
+
+.sumar-cantidad:hover, .restar-cantidad:hover {
+    background-color: #4cae4c;
+}
+
+/* Contenedor de cantidad */
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Diseño del número de cantidad */
+.carrito-item-cantidad {
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000;
+}
+
+/* Botón de eliminar */
+.boton-eliminar, .btn-eliminar {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.boton-eliminar:hover, .btn-eliminar:hover {
+    background-color: #c9302c;
+}
+
+/* Total del carrito */
+.carrito-total {
+    font-size: 1.2em;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Fila para total */
+.carrito-total .fila {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+/* Botón de pagar */
+.btn-pagar {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-pagar:hover {
+    background-color: #4cae4c;
+}
